@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090c">
+<title>SQUID SURVIVAL — 3D Ultimate Survival Simulator</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app"></div>
+<div id="grain"></div>
+<div id="vignette"></div>
+
+<div id="loading">
+  <div class="loader-shapes"><span>○</span><span>△</span><span>□</span></div>
+  <h1 class="loader-title">SQUID<span>SURVIVAL</span></h1>
+  <div class="loader-bar"><i></i></div>
+  <p class="loader-hint" id="loader-hint">PREPARING THE GAMES</p>
+  <p class="loader-sub">SQUID SURVIVAL · 3D SURVIVAL SIMULATOR</p>
+</div>
+
+<!-- ===================== MAIN MENU ===================== -->
+<div id="menu-layer" class="layer hidden">
+  <header class="menu-top">
+    <div class="brand-small"><span class="shape-dot circle"></span><span class="shape-dot triangle"></span><span class="shape-dot square"></span><span class="brand-text">SQUID SURVIVAL</span></div>
+    <div class="menu-stats">
+      <div class="stat"><span class="stat-label">COINS</span><span class="stat-value" id="menu-coins">₩ 0</span></div>
+      <div class="stat"><span class="stat-label">BEST SCORE</span><span class="stat-value" id="menu-best">0</span></div>
+      <div class="stat"><span class="stat-label">SEASON</span><span class="stat-value">03</span></div>
+    </div>
+  </header>
+
+  <main class="menu-main">
+    <div class="menu-left">
+      <p class="menu-kicker"><span class="line"></span>THE 34TH EDITION</p>
+      <h1 class="game-title"><span class="title-a">SQUID</span><span class="title-b">SURVIVAL</span></h1>
+      <div class="title-row">
+        <span class="title-shape circle"></span>
+        <span class="title-shape triangle"></span>
+        <span class="title-shape square"></span>
+        <span class="title-sub">3D SURVIVAL SIMULATOR</span>
+      </div>
+      <p class="menu-tagline">456 players. Six games. One survivor.<br><em>Will you make it out alive?</em></p>
+
+      <nav class="menu-buttons">
+        <button class="btn primary" data-action="play"><span class="btn-idx">01</span><span>PLAY GAME</span><span class="btn-arrow">▶</span></button>
+        <button class="btn continue hidden" id="btn-continue" data-action="continue"><span class="btn-idx">▣</span><span>CONTINUE RUN</span><span class="btn-arrow">↻</span></button>
+        <button class="btn" data-action="character"><span class="btn-idx">02</span><span>CHARACTER</span><span class="btn-arrow">▸</span></button>
+        <button class="btn" data-action="modes"><span class="btn-idx">03</span><span>GAME MODES</span><span class="btn-arrow">▸</span></button>
+        <button class="btn" data-action="settings"><span class="btn-idx">04</span><span>SETTINGS</span><span class="btn-arrow">▸</span></button>
+        <button class="btn" data-action="help"><span class="btn-idx">05</span><span>HOW TO PLAY</span><span class="btn-arrow">▸</span></button>
+        <button class="btn ghost" data-action="exit"><span class="btn-idx">06</span><span>EXIT</span><span class="btn-arrow">✕</span></button>
+      </nav>
+      <p class="menu-hint">SURVIVAL IS A CHOICE · PLAY AT YOUR OWN RISK</p>
+    </div>
+
+    <aside class="menu-right">
+      <div class="menu-card roster-card">
+        <div class="card-head"><span class="pulse-dot"></span> LIVE ROSTER</div>
+        <div class="roster-count" id="menu-roster">456</div>
+        <div class="roster-label">PLAYERS REMAINING</div>
+        <div class="roster-bars" id="roster-bars"></div>
+        <div class="card-foot"><span>PRIZE POOL</span><b>₩ 45,600,000,000</b></div>
+      </div>
+      <div class="menu-card mode-card">
+        <div class="card-head">CURRENT PROTOCOL</div>
+        <ul class="mini-list">
+          <li><span>○</span> RED LIGHT / GREEN LIGHT</li>
+          <li><span>△</span> DALGONA CHALLENGE</li>
+          <li><span>□</span> TUG OF WAR</li>
+          <li><span>◈</span> MARBLES</li>
+          <li><span>▤</span> GLASS BRIDGE</li>
+          <li><span>✕</span> SQUID GAME</li>
+        </ul>
+      </div>
+      <div class="menu-profile" id="menu-profile">
+        <div class="profile-chip" id="menu-profile-chip">456</div>
+        <div><div class="profile-name">PLAYER 456</div><div class="profile-status" id="menu-profile-status">READY TO ENTER</div></div>
+      </div>
+    </aside>
+  </main>
+  <footer class="menu-footer">
+    <span>© 2026 MINGLE PROTOCOL · FAN-MADE SIMULATION</span>
+    <span class="footer-shapes">○ △ □</span>
+    <span>BUILD 1.0 · WEBGL</span>
+  </footer>
+</div>
+
+<!-- ===================== HUD ===================== -->
+<div id="hud" class="layer hidden">
+  <div class="hud-top">
+    <div class="hud-identity">
+      <div class="player-badge" id="hud-badge">456</div>
+      <div class="id-text"><span class="hud-label">PLAYER</span><span class="hud-status" id="hud-status">ALIVE</span></div>
+    </div>
+    <div class="hud-round">
+      <span class="hud-label">CURRENT GAME</span>
+      <div class="hud-round-name"><em id="hud-round-num">01</em><span id="hud-round-name">RED LIGHT, GREEN LIGHT</span></div>
+      <div class="hud-players"><b id="hud-players">456</b> IN PLAY</div>
+    </div>
+    <div class="hud-right">
+      <div class="hud-timer-wrap"><span class="hud-label">TIME</span><div class="hud-timer" id="hud-timer">02:00</div></div>
+      <div class="hud-score-wrap"><span class="hud-label">SCORE</span><div class="hud-score" id="hud-score">0</div></div>
+      <div class="hud-actions">
+        <button class="icon-btn" id="btn-pause" data-action="pause" title="Pause (Esc)">❚❚</button>
+        <button class="icon-btn" id="btn-sound" data-action="sound" title="Sound">♪</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hud-objective">
+    <div class="obj-row"><span id="hud-objective-label">REACH THE FINISH LINE</span><span id="hud-objective-value">0%</span></div>
+    <div class="bar"><i id="hud-bar"></i></div>
+  </div>
+
+  <div class="hud-bottom">
+    <div class="hud-vitals"><span class="hud-label">SURVIVAL</span><div class="status-pips" id="hud-pips"><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+    <div class="hud-coins"><span class="coin">₩</span><b id="hud-coins">0</b></div>
+  </div>
+
+  <div id="round-ui"></div>
+  <div id="signal-banner" class="signal-banner hidden"><div class="signal-main"></div><div class="signal-sub"></div></div>
+  <div id="hint" class="hint hidden"></div>
+  <div id="toast-zone"></div>
+  <div class="lock-hint hidden" id="lock-hint"><span>CLICK TO LOOK AROUND</span><em>MOUSE · LOOK &nbsp; W A S D · MOVE</em></div>
+</div>
+
+<!-- ===================== CHARACTER SCREEN ===================== -->
+<div id="char-layer" class="layer hidden">
+  <div class="char-head">
+    <button class="back-btn" data-action="char-back">‹ BACK</button>
+    <div class="char-heading"><span class="hud-label">PLAYER PROFILE</span><h2>CHARACTER CUSTOMIZATION</h2></div>
+    <div class="char-coins"><span class="coin">₩</span><b id="char-coins">0</b></div>
+  </div>
+  <div class="char-body">
+    <div class="char-preview-label"><span>●</span> LIVE 3D PREVIEW <em>DRAG TO ROTATE</em></div>
+    <div class="char-panel">
+      <div class="cp-tabs">
+        <button class="cp-tab active" data-cp-tab="outfit">OUTFIT</button>
+        <button class="cp-tab" data-cp-tab="look">FACE &amp; HAIR</button>
+        <button class="cp-tab" data-cp-tab="gear">GEAR</button>
+        <button class="cp-tab" data-cp-tab="anim">POSE</button>
+      </div>
+      <div class="cp-content" id="cp-content"></div>
+      <div class="cp-actions">
+        <button class="btn small ghost" data-action="char-random">RANDOMIZE</button>
+        <button class="btn small primary" data-action="char-back">CONFIRM</button>
+      </div>
+    </div>
+  </div>
+  <div class="char-footer">
+    <div class="char-stat"><span class="hud-label">PLAYER NUMBER</span><b id="char-number">456</b></div>
+    <div class="char-stat"><span class="hud-label">OUTFIT</span><b id="char-outfit-name">TEAL TRACKSUIT</b></div>
+    <div class="char-stat"><span class="hud-label">UNLOCKED</span><b id="char-unlocked">4 / 7</b></div>
+    <p class="char-tip">Your look is saved automatically. Unlock guard outfits in this screen using coins earned in the games.</p>
+  </div>
+</div>
+
+<!-- ===================== MODAL / SCREENS ===================== -->
+<div id="modal-layer" class="layer hidden">
+  <div class="modal-backdrop"></div>
+  <section class="modal" id="modal" role="dialog" aria-modal="true"></section>
+</div>
+
+<div id="round-flash"></div>
+<div id="fade-layer"></div>
+
+<script src="vendor/three.min.js"></script>
+<script src="js/core/utils.js"></script>
+<script src="js/core/save.js"></script>
+<script src="js/core/audio.js"></script>
+<script src="js/core/input.js"></script>
+<script src="js/world/character.js"></script>
+<script src="js/world/environment.js"></script>
+<script src="js/world/doll.js"></script>
+<script src="js/ui/ui.js"></script>
+<script src="js/rounds/round-base.js"></script>
+<script src="js/rounds/round1-redlight.js"></script>
+<script src="js/rounds/round2-dalgona.js"></script>
+<script src="js/rounds/round3-tug.js"></script>
+<script src="js/rounds/round4-marbles.js"></script>
+<script src="js/rounds/round5-bridge.js"></script>
+<script src="js/rounds/round6-squid.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
